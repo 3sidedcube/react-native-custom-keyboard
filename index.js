@@ -11,6 +11,7 @@ import {
 const { CustomKeyboard} = NativeModules;
 
 const {
+  clear,
   install, uninstall,
   insertText, backSpace, doDelete,
   moveLeft, moveRight,
@@ -18,6 +19,7 @@ const {
 } = CustomKeyboard;
 
 export {
+  clear,
   install, uninstall,
   insertText, backSpace, doDelete,
   moveLeft, moveRight,
