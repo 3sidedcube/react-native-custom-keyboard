@@ -69,7 +69,7 @@ RCT_EXPORT_METHOD(moveLeft:(nonnull NSNumber *)reactTag) {
   UITextPosition* position = range.start;
 
   if ([view comparePosition:range.start toPosition:range.end] == 0) {
-    position = [view positionFromPosition: position, offset: -1];
+    position = [view positionFromPosition: position offset: -1];
   }
 
   view.selectedTextRange = [view textRangeFromPosition: position toPosition:position];
@@ -82,7 +82,7 @@ RCT_EXPORT_METHOD(moveRight:(nonnull NSNumber *)reactTag) {
   UITextPosition* position = range.end;
 
   if ([view comparePosition:range.start toPosition:range.end] == 0) {
-    position = [view positionFromPosition: position, offset: 1];
+    position = [view positionFromPosition: position offset: 1];
   }
 
   view.selectedTextRange = [view textRangeFromPosition: position toPosition:position];
