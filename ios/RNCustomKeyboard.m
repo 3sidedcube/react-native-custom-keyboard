@@ -42,6 +42,11 @@ RCT_EXPORT_METHOD(insertText:(nonnull NSNumber *)reactTag withText:(NSString*)te
   [view replaceRange:view.selectedTextRange withText:text];
 }
 
+RCT_EXPORT_METHOD(clear:(nonnull NSNumber *)reactTag) {
+    UITextView *view = (UITextView *)[_bridge.uiManager viewForReactTag:reactTag];
+    view.text = nil;
+}
+
 RCT_EXPORT_METHOD(backSpace:(nonnull NSNumber *)reactTag) {
   UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
 
