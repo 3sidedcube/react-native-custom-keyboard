@@ -2,6 +2,7 @@
 #import "RNCustomKeyboard.h"
 #import "RCTBridge+Private.h"
 #import "RCTUIManager.h"
+#import "RNCustomKeyboardRootView.h"
 
 @implementation RNCustomKeyboard
 
@@ -13,14 +14,13 @@
 }
 RCT_EXPORT_MODULE(CustomKeyboard)
 
-RCT_EXPORT_METHOD(install:(nonnull NSNumber *)reactTag withType:(nonnull NSString *)keyboardType)
+RCT_EXPORT_METHOD(install:(nonnull NSNumber *)reactTag withType:(nonnull NSString *)keyboardType passProps:(NSDictionary *)passProps)
 {
-  UIView* inputView = [[RCTRootView alloc] initWithBridge:((RCTBatchedBridge *)_bridge).parentBridge moduleName:@"CustomKeyboard" initialProperties:
-    @{
-      @"tag": reactTag,
-      @"type": keyboardType
-    }
-  ];
+  NSMutableDictionary *props = passProps ? [passProps mutableCopy] : @{};
+  [props setValue:reactTag forKey:@"tag"];
+  [props setValue:keyboardType forKey:@"type"];
+    
+  UIView* inputView = [[RNCustomKeyboardRootView alloc] initWithBridge:((RCTBatchedBridge *)_bridge).parentBridge moduleName:@"CustomKeyboard" initialProperties:props];
 
   UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
 

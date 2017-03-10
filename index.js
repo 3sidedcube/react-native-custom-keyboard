@@ -8,7 +8,7 @@ import {
   AppRegistry,
 } from 'react-native';
 
-const { CustomKeyboard} = NativeModules;
+const { CustomKeyboard } = NativeModules;
 
 const {
   clear,
@@ -41,7 +41,7 @@ class CustomKeyboardContainer extends Component {
       return null;
     }
     const Comp = factory();
-    return <Comp tag={tag} />;
+    return <Comp {...this.props} tag={tag}/>;
   }
 }
 
