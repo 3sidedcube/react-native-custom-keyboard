@@ -15,6 +15,7 @@ const {
   install, uninstall,
   insertText, backSpace, doDelete,
   moveLeft, moveRight,
+  submit,
   switchSystemKeyboard,
 } = CustomKeyboard;
 
@@ -23,6 +24,7 @@ export {
   install, uninstall,
   insertText, backSpace, doDelete,
   moveLeft, moveRight,
+  submit,
   switchSystemKeyboard,
 };
 

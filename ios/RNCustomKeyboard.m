@@ -3,6 +3,9 @@
 #import "RCTBridge+Private.h"
 #import "RCTUIManager.h"
 #import "RNCustomKeyboardRootView.h"
+#import <React/RCTEventDispatcher.h>
+#import "RCTTextView.h"
+#import "RCTTextField.h"
 
 @implementation RNCustomKeyboard
 
@@ -45,6 +48,26 @@ RCT_EXPORT_METHOD(insertText:(nonnull NSNumber *)reactTag withText:(NSString*)te
 RCT_EXPORT_METHOD(clear:(nonnull NSNumber *)reactTag) {
     UITextView *view = (UITextView *)[_bridge.uiManager viewForReactTag:reactTag];
     view.text = nil;
+}
+
+RCT_EXPORT_METHOD(submit:(nonnull NSNumber *)reactTag) {
+    UITextView *view = (UITextView *)[_bridge.uiManager viewForReactTag:reactTag];
+    
+    if ([view isKindOfClass:[RCTTextView class]]) {
+        
+        RCTTextView *rctView = (RCTTextView *)view;
+        if ([rctView respondsToSelector:@selector(eventDispatcher)]) {
+            RCTEventDispatcher *eventDispatcher = [rctView performSelector:@selector(eventDispatcher)];
+            [eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:view.text key:nil eventCount:0];
+        }
+    } else if ([view isKindOfClass:[RCTTextField class]]) {
+        
+        if ([view respondsToSelector:@selector(textFieldSubmitEditing)]) {
+            [view performSelector:@selector(textFieldSubmitEditing)];
+        }
+    }
+    
+    [view resignFirstResponder];
 }
 
 RCT_EXPORT_METHOD(backSpace:(nonnull NSNumber *)reactTag) {
