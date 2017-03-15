@@ -208,6 +208,7 @@
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
 					"$(SRCROOT)/../../react-native-navigation/**",
+					"$(SRCROOT)/../../react-native/Libraries/Text/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
@@ -225,6 +226,7 @@
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
 					"$(SRCROOT)/../../react-native-navigation/**",
+					"$(SRCROOT)/../../react-native/Libraries/Text/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
