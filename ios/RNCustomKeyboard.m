@@ -15,6 +15,7 @@
 {
     return dispatch_get_main_queue();
 }
+
 RCT_EXPORT_MODULE(CustomKeyboard)
 
 RCT_EXPORT_METHOD(install:(nonnull NSNumber *)reactTag withType:(nonnull NSString *)keyboardType passProps:(NSDictionary *)passProps)
