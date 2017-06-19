@@ -18,32 +18,51 @@
 
 RCT_EXPORT_MODULE(CustomKeyboard)
 
-RCT_EXPORT_METHOD(install:(nonnull NSNumber *)reactTag withType:(nonnull NSString *)keyboardType passProps:(NSDictionary *)passProps)
+RCT_EXPORT_METHOD(install:(nonnull NSNumber *)reactTag withType:(nonnull NSString *)keyboardType passProps:(NSDictionary *)passProps type:(NSString *)type)
 {
-  NSMutableDictionary *props = passProps ? [passProps mutableCopy] : @{};
-  [props setValue:reactTag forKey:@"tag"];
-  [props setValue:keyboardType forKey:@"type"];
+    NSMutableDictionary *props = passProps ? [passProps mutableCopy] : @{};
+    [props setValue:reactTag forKey:@"tag"];
+    [props setValue:keyboardType forKey:@"type"];
     
-  UIView* inputView = [[RNCustomKeyboardRootView alloc] initWithBridge:((RCTBatchedBridge *)_bridge).parentBridge moduleName:@"CustomKeyboard" initialProperties:props];
+    UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
 
-  UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
+    if (type && [type isEqualToString:@"input"]) {
+        
+        UIView* inputView = [[RNCustomKeyboardRootView alloc] initWithBridge:((RCTBatchedBridge *)_bridge).parentBridge moduleName:@"CustomKeyboard" initialProperties:props];
+        view.inputView = inputView;
+        
+    } else if (type && [type isEqualToString:@"accessory"]) {
+        
+        UIView *accessoryView = [[RNCustomKeyboardRootView alloc] initWithBridge:((RCTBatchedBridge *)_bridge).parentBridge moduleName:@"CustomAccessory" initialProperties:props];
+        CGRect frame = accessoryView.frame;
+        frame.size = CGSizeMake(frame.size.width, 44);
+        accessoryView.frame = frame;
+        view.inputAccessoryView = accessoryView;
+    }
 
-  view.inputView = inputView;
-  [view reloadInputViews];
+    [view reloadInputViews];
 }
 
-RCT_EXPORT_METHOD(uninstall:(nonnull NSNumber *)reactTag)
+RCT_EXPORT_METHOD(uninstall:(nonnull NSNumber *)reactTag type:(NSString *)type)
 {
-  UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
+    UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
 
-  view.inputView = nil;
-  [view reloadInputViews];
+    if (type && [type isEqualToString:@"input"]) {
+        
+        view.inputView = nil;
+        
+    } else if (type && [type isEqualToString:@"accessory"]) {
+        
+        view.inputAccessoryView = nil;
+    }
+    
+    [view reloadInputViews];
 }
 
 RCT_EXPORT_METHOD(insertText:(nonnull NSNumber *)reactTag withText:(NSString*)text) {
-  UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
+    UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
 
-  [view replaceRange:view.selectedTextRange withText:text];
+    [view replaceRange:view.selectedTextRange withText:text];
 }
 
 RCT_EXPORT_METHOD(clear:(nonnull NSNumber *)reactTag) {
@@ -72,57 +91,57 @@ RCT_EXPORT_METHOD(submit:(nonnull NSNumber *)reactTag) {
 }
 
 RCT_EXPORT_METHOD(backSpace:(nonnull NSNumber *)reactTag) {
-  UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
+    UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
 
-  UITextRange* range = view.selectedTextRange;
-  if ([view comparePosition:range.start toPosition:range.end] == 0) {
+    UITextRange* range = view.selectedTextRange;
+    if ([view comparePosition:range.start toPosition:range.end] == 0) {
     range = [view textRangeFromPosition:[view positionFromPosition:range.start offset:-1] toPosition:range.start];
-  }
-  [view replaceRange:range withText:@""];
+    }
+    [view replaceRange:range withText:@""];
 }
 
 RCT_EXPORT_METHOD(doDelete:(nonnull NSNumber *)reactTag) {
-  UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
+    UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
 
-  UITextRange* range = view.selectedTextRange;
-  if ([view comparePosition:range.start toPosition:range.end] == 0) {
+    UITextRange* range = view.selectedTextRange;
+    if ([view comparePosition:range.start toPosition:range.end] == 0) {
     range = [view textRangeFromPosition:range.start toPosition:[view positionFromPosition: range.start offset: 1]];
-  }
-  [view replaceRange:range withText:@""];
+    }
+    [view replaceRange:range withText:@""];
 }
 
 RCT_EXPORT_METHOD(moveLeft:(nonnull NSNumber *)reactTag) {
-  UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
+    UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
 
-  UITextRange* range = view.selectedTextRange;
-  UITextPosition* position = range.start;
+    UITextRange* range = view.selectedTextRange;
+    UITextPosition* position = range.start;
 
-  if ([view comparePosition:range.start toPosition:range.end] == 0) {
-    position = [view positionFromPosition: position offset: -1];
-  }
+    if ([view comparePosition:range.start toPosition:range.end] == 0) {
+        position = [view positionFromPosition: position offset: -1];
+    }
 
-  view.selectedTextRange = [view textRangeFromPosition: position toPosition:position];
+    view.selectedTextRange = [view textRangeFromPosition: position toPosition:position];
 }
 
 RCT_EXPORT_METHOD(moveRight:(nonnull NSNumber *)reactTag) {
-  UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
+    UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
 
-  UITextRange* range = view.selectedTextRange;
-  UITextPosition* position = range.end;
+    UITextRange* range = view.selectedTextRange;
+    UITextPosition* position = range.end;
 
-  if ([view comparePosition:range.start toPosition:range.end] == 0) {
-    position = [view positionFromPosition: position offset: 1];
-  }
+    if ([view comparePosition:range.start toPosition:range.end] == 0) {
+        position = [view positionFromPosition: position offset: 1];
+    }
 
-  view.selectedTextRange = [view textRangeFromPosition: position toPosition:position];
+    view.selectedTextRange = [view textRangeFromPosition: position toPosition:position];
 }
 
 RCT_EXPORT_METHOD(switchSystemKeyboard:(nonnull NSNumber*) reactTag) {
-  UITextView *view = [_bridge.uiManager viewForReactTag:reactTag];
-  UIView* inputView = view.inputView;
-  view.inputView = nil;
-  [view reloadInputViews];
-  view.inputView = inputView;
+    UITextView *view = (UITextView *)[_bridge.uiManager viewForReactTag:reactTag];
+    UIView* inputView = view.inputView;
+    view.inputView = nil;
+    [view reloadInputViews];
+    view.inputView = inputView;
 }
 
 @end

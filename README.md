@@ -46,7 +46,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { register, insertText } from 'react-native-custom-keyboard';
+import { registerKeyboard, insertText } from 'react-native-custom-keyboard';
 
 class MyKeyboard extends Component {
   onPress = () => {
@@ -82,7 +82,7 @@ class MyPage extends Component {
   render() {
     return (
       <View>
-        <CustomTextInput customKeyboardType="hello" value={this.state.value} onChangeText={this.onChangeText} />
+        <CustomTextInput customKeyboard="hello" value={this.state.value} onChangeText={this.onChangeText} />
       </View>
     );
   }
@@ -91,18 +91,18 @@ class MyPage extends Component {
 
 ## API
 
-### register(type, type)
+### registerKeyboard(type, component)
 
 Register a custom keyboard type.
 
-### install(tag, type)
+### install(tag, type, props, inputOrAccessory)
 
 Install custom keyboard to a `TextInput`.
 
 Generally you can use CustomTextInput instead of this. But you can use this API
 to install/change custom keyboard dynamically.
 
-### uninstall(tag)
+### uninstall(tag, inputOrAccessory)
 
 Uninstall custom keyboard from a `TextInput` dynamically.
 
@@ -137,6 +137,6 @@ appear again. To keep using system keyboard, call `uninstall` instead.
 
 Use instead of `TextInput`, this component support all properties of `TextInput`.
 
-#### prop: customKeyboardType: string
+#### prop: customKeyboard: string
 
 Use a registered custom keyboard.

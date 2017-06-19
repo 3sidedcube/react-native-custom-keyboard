@@ -29,9 +29,14 @@ export {
 };
 
 const keyboardTypeRegistry = {};
+const keyboardAccessoryRegistry = {};
 
-export function register(type, factory) {
+export function registerKeyboard(type, factory) {
   keyboardTypeRegistry[type] = factory;
+}
+
+export function registerAccessory(type, factory) {
+  keyboardAccessoryRegistry[type] = factory;
 }
 
 class CustomKeyboardContainer extends Component {
@@ -39,7 +44,20 @@ class CustomKeyboardContainer extends Component {
     const {tag, type} = this.props;
     const factory = keyboardTypeRegistry[type];
     if (!factory) {
-      console.warn(`Custom keyboard type ${type} not registered.`);
+      console.warn(`Custom keyboard ${type} not registered.`);
+      return null;
+    }
+    const Comp = factory();
+    return <Comp {...this.props} tag={tag}/>;
+  }
+}
+
+class CustomAccessoryContainer extends Component {
+  render() {
+    const {tag, type} = this.props;
+    const factory = keyboardAccessoryRegistry[type];
+    if (!factory) {
+      console.warn(`Custom accessory ${type} not registered.`);
       return null;
     }
     const Comp = factory();
@@ -48,25 +66,31 @@ class CustomKeyboardContainer extends Component {
 }
 
 AppRegistry.registerComponent("CustomKeyboard", ()=>CustomKeyboardContainer);
+AppRegistry.registerComponent("CustomAccessory", ()=>CustomAccessoryContainer);
 
 export class CustomTextInput extends Component {
   static propTypes = {
     ...TextInput.propTypes,
-    customKeyboardType: PropTypes.string,
+    customKeyboard: PropTypes.string,
+    customAccessory: PropTypes.string
   };
   componentDidMount() {
-    install(findNodeHandle(this.input), this.props.customKeyboardType);
+    install(findNodeHandle(this.input), this.props.customKeyboard, undefined, 'input');
+    install(findNodeHandle(this.input), this.props.customAccessory, undefined, 'accessory');
   }
   componentWillReceiveProps(newProps) {
-    if (newProps.customKeyboardType !== this.props.customKeyboardType) {
-      install(findNodeHandle(this.input), newProps.customKeyboardType);
+    if (newProps.customKeyboard !== this.props.customKeyboard) {
+      install(findNodeHandle(this.input), newProps.customKeyboard, undefined, 'input');
+    }
+    if (newProps.customAccessory !== this.props.customAccessory) {
+      install(findNodeHandle(this.input), newProps.customAccessory, undefined, 'accessory');
     }
   }
   onRef = ref => {
     this.input = ref;
   };
   render() {
-    const { customKeyboardType, ...others } = this.props;
+    const { customKeyboard, customAccessory, ...others } = this.props;
     return <TextInput {...others} ref={this.onRef}/>;
   }
 }

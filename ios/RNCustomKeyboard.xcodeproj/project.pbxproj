@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B1D0550E1E72DB9B00326170 /* RNCustomKeyboardRootView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D0550D1E72DB9B00326170 /* RNCustomKeyboardRootView.m */; };
+		B1347D921EF81094002BA002 /* RNCustomKeyboardRootView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1347D911EF81094002BA002 /* RNCustomKeyboardRootView.m */; };
 		B3E7B58A1CC2AC0600A0062D /* RNCustomKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNCustomKeyboard.m */; };
 /* End PBXBuildFile section */
 
@@ -25,8 +25,8 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNCustomKeyboard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNCustomKeyboard.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B1D0550C1E72DB9B00326170 /* RNCustomKeyboardRootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCustomKeyboardRootView.h; sourceTree = "<group>"; };
-		B1D0550D1E72DB9B00326170 /* RNCustomKeyboardRootView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCustomKeyboardRootView.m; sourceTree = "<group>"; };
+		B1347D901EF81094002BA002 /* RNCustomKeyboardRootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCustomKeyboardRootView.h; sourceTree = "<group>"; };
+		B1347D911EF81094002BA002 /* RNCustomKeyboardRootView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCustomKeyboardRootView.m; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* RNCustomKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCustomKeyboard.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNCustomKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCustomKeyboard.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,8 +55,8 @@
 			children = (
 				B3E7B5881CC2AC0600A0062D /* RNCustomKeyboard.h */,
 				B3E7B5891CC2AC0600A0062D /* RNCustomKeyboard.m */,
-				B1D0550C1E72DB9B00326170 /* RNCustomKeyboardRootView.h */,
-				B1D0550D1E72DB9B00326170 /* RNCustomKeyboardRootView.m */,
+				B1347D901EF81094002BA002 /* RNCustomKeyboardRootView.h */,
+				B1347D911EF81094002BA002 /* RNCustomKeyboardRootView.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -117,7 +117,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1D0550E1E72DB9B00326170 /* RNCustomKeyboardRootView.m in Sources */,
+				B1347D921EF81094002BA002 /* RNCustomKeyboardRootView.m in Sources */,
 				B3E7B58A1CC2AC0600A0062D /* RNCustomKeyboard.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
