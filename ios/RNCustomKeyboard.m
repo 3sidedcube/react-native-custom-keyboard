@@ -70,6 +70,11 @@ RCT_EXPORT_METHOD(clear:(nonnull NSNumber *)reactTag) {
     view.text = nil;
 }
 
+RCT_EXPORT_METHOD(replaceText:(nonnull NSNumber *)reactTag withText:(NSString*)text) {
+    UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
+    view.text = text;
+}
+
 RCT_EXPORT_METHOD(submit:(nonnull NSNumber *)reactTag) {
     UITextView *view = (UITextView *)[_bridge.uiManager viewForReactTag:reactTag];
     

@@ -15,6 +15,7 @@ const {
   install, uninstall,
   insertText, backSpace, doDelete,
   moveLeft, moveRight,
+  replaceText,
   submit,
   switchSystemKeyboard,
 } = CustomKeyboard;
