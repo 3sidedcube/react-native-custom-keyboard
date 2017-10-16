@@ -1,7 +1,8 @@
 
 #import "RNCustomKeyboard.h"
-#import "RCTBridge+Private.h"
-#import "RCTUIManager.h"
+#import <React/RCTBridge+Private.h>
+#import <React/RCTUIManager.h>
+#import <React/RCTUIManager.h>
 #import "RNCustomKeyboardRootView.h"
 #import <React/RCTEventDispatcher.h>
 #import "RCTTextView.h"
