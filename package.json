@@ -17,6 +17,8 @@
   "author": "",
   "license": "",
   "peerDependencies": {
-    "react-native": "*"
+    "react": ">=15.4.0 || ^16.0.0-alpha",
+    "react-native": "*",
+    "prop-types": "^15.5.10"
   }
 }
