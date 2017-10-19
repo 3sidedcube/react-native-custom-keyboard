@@ -25,12 +25,44 @@ RCT_EXPORT_METHOD(install:(nonnull NSNumber *)reactTag withType:(nonnull NSStrin
     [props setValue:reactTag forKey:@"tag"];
     [props setValue:keyboardType forKey:@"type"];
     
-    UITextView *view = (UITextView*)[_bridge.uiManager viewForReactTag:reactTag];
+    UIView *view = [_bridge.uiManager viewForReactTag:reactTag];
+    __block UITextView *textView;
+    __block UITextField *textField;
+    
+    if ([view isKindOfClass:[UITextView class]]) {
+        
+        textView = (UITextView *)view;
+        
+    } else {
+        
+        [view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:[UITextView class]]) {
+                textView = (UITextView *)obj;
+                *stop = true;
+            }
+        }];
+    }
+    
+    if ([view isKindOfClass:[UITextField class]]) {
+        
+        textField = (UITextField *)view;
+        
+    } else {
+        
+        [view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:[UITextField class]]) {
+                textField = (UITextField *)obj;
+                *stop = true;
+            }
+        }];
+    }
+    
 
     if (type && [type isEqualToString:@"input"]) {
         
         UIView* inputView = [[RNCustomKeyboardRootView alloc] initWithBridge:((RCTBatchedBridge *)_bridge).parentBridge moduleName:@"CustomKeyboard" initialProperties:props];
-        view.inputView = inputView;
+        textView.inputView = inputView;
+        textField.inputView = inputView;
         
     } else if (type && [type isEqualToString:@"accessory"]) {
         
@@ -38,7 +70,8 @@ RCT_EXPORT_METHOD(install:(nonnull NSNumber *)reactTag withType:(nonnull NSStrin
         CGRect frame = accessoryView.frame;
         frame.size = CGSizeMake(frame.size.width, 44);
         accessoryView.frame = frame;
-        view.inputAccessoryView = accessoryView;
+        textView.inputAccessoryView = accessoryView;
+        textField.inputAccessoryView = accessoryView;
     }
 
     [view reloadInputViews];
