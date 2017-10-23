@@ -88,5 +88,12 @@
     return removed;
 }
 
+- (RCTRootViewSizeFlexibility)sizeFlexibility {
+	return RCTRootViewSizeFlexibilityHeight;
+}
+
+- (CGSize)intrinsicContentSize {
+	return CGSizeMake(-1, -1);
+}
 
 @end
