@@ -6,6 +6,7 @@
 #import <React/RCTEventDispatcher.h>
 #import "RCTTextView.h"
 #import "RCTTextField.h"
+#import "RCTTextInput.h"
 
 @interface RCTUIManager (TextField)
 
@@ -176,28 +177,22 @@ RCT_EXPORT_METHOD(replaceText:(nonnull NSNumber *)reactTag withText:(NSString*)t
 
 RCT_EXPORT_METHOD(submit:(nonnull NSNumber *)reactTag) {
 	
-    UITextView *view = (UITextView *)[_bridge.uiManager viewForReactTag:reactTag];
+    UIView *view = (UIView *)[_bridge.uiManager viewForReactTag:reactTag];
     
     if ([view isKindOfClass:[RCTTextView class]]) {
         
         RCTTextView *rctView = (RCTTextView *)view;
 		
-        if ([rctView respondsToSelector:@selector(eventDispatcher)]) {
-            RCTEventDispatcher *eventDispatcher = [rctView performSelector:@selector(eventDispatcher)];
-            [eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:view.text key:nil eventCount:0];
-        }
+		[self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:rctView.text key:nil eventCount:0];
+		[rctView resignFirstResponder];
 		
     } else if ([view isKindOfClass:[RCTTextField class]]) {
 		
 		UITextField *textField = [_bridge.uiManager textFieldForReactTag:reactTag];
 		
-		if ([view respondsToSelector:@selector(eventDispatcher)]) {
-			RCTEventDispatcher *eventDispatcher = [view performSelector:@selector(eventDispatcher)];
-			[eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:textField.text key:nil eventCount:0];
-		}
-    }
-    
-    [view resignFirstResponder];
+		[self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:textField.text key:nil eventCount:0];
+		[textField resignFirstResponder];
+    }    
 }
 
 RCT_EXPORT_METHOD(backSpace:(nonnull NSNumber *)reactTag) {
