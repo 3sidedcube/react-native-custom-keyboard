@@ -4,9 +4,8 @@
 #import <React/RCTUIManager.h>
 #import "RNCustomKeyboardRootView.h"
 #import <React/RCTEventDispatcher.h>
-#import "RCTTextView.h"
-#import "RCTTextField.h"
-#import "RCTTextInput.h"
+#import <RCTText/RCTTextView.h>
+#import <RCTText/RCTUITextField.h>
 
 @interface RCTUIManager (TextField)
 
@@ -86,7 +85,7 @@ RCT_EXPORT_METHOD(install:(nonnull NSNumber *)reactTag withType:(nonnull NSStrin
 
     if (type && [type isEqualToString:@"input"]) {
         
-        UIView* inputView = [[RNCustomKeyboardRootView alloc] initWithBridge:((RCTBatchedBridge *)_bridge).parentBridge moduleName:@"CustomKeyboard" initialProperties:props];
+        UIView* inputView = [[RNCustomKeyboardRootView alloc] initWithBridge:(_bridge).parentBridge moduleName:@"CustomKeyboard" initialProperties:props];
 		
 		inputView.translatesAutoresizingMaskIntoConstraints = false;
         textView.inputView = inputView;
@@ -94,7 +93,7 @@ RCT_EXPORT_METHOD(install:(nonnull NSNumber *)reactTag withType:(nonnull NSStrin
         
     } else if (type && [type isEqualToString:@"accessory"]) {
         
-        UIView *accessoryView = [[RNCustomKeyboardRootView alloc] initWithBridge:((RCTBatchedBridge *)_bridge).parentBridge moduleName:@"CustomAccessory" initialProperties:props];
+        UIView *accessoryView = [[RNCustomKeyboardRootView alloc] initWithBridge:(_bridge).parentBridge moduleName:@"CustomAccessory" initialProperties:props];
         CGRect frame = accessoryView.frame;
         frame.size = CGSizeMake(frame.size.width, 44);
         accessoryView.frame = frame;
@@ -183,10 +182,11 @@ RCT_EXPORT_METHOD(submit:(nonnull NSNumber *)reactTag) {
         
         RCTTextView *rctView = (RCTTextView *)view;
 		
-		[self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:rctView.text key:nil eventCount:0];
+        //TODO: Find a way to add this back in!
+//        [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:rctView.text key:nil eventCount:0];
 		[rctView resignFirstResponder];
 		
-    } else if ([view isKindOfClass:[RCTTextField class]]) {
+    } else if ([view isKindOfClass:[RCTUITextField class]]) {
 		
 		UITextField *textField = [_bridge.uiManager textFieldForReactTag:reactTag];
 		
