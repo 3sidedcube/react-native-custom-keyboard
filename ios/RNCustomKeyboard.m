@@ -4,7 +4,7 @@
 #import <React/RCTUIManager.h>
 #import "RNCustomKeyboardRootView.h"
 #import <React/RCTEventDispatcher.h>
-#import <RCTText/RCTTextView.h>
+#import <RCTText/RCTUITextView.h>
 #import <RCTText/RCTUITextField.h>
 
 @interface RCTUIManager (TextField)
@@ -178,9 +178,9 @@ RCT_EXPORT_METHOD(submit:(nonnull NSNumber *)reactTag) {
 	
     UIView *view = (UIView *)[_bridge.uiManager viewForReactTag:reactTag];
     
-    if ([view isKindOfClass:[RCTTextView class]]) {
+    if ([view isKindOfClass:[RCTUITextView class]]) {
         
-        RCTTextView *rctView = (RCTTextView *)view;
+        RCTUITextView *rctView = (RCTUITextView *)view;
 		
         //TODO: Find a way to add this back in!
 //        [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:rctView.text key:nil eventCount:0];
