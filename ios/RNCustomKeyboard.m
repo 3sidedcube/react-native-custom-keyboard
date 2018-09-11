@@ -4,7 +4,6 @@
 #import <React/RCTUIManager.h>
 #import "RNCustomKeyboardRootView.h"
 #import <React/RCTEventDispatcher.h>
-#import <RCTText/RCTUITextView.h>
 #import <RCTText/RCTUITextField.h>
 
 @interface RCTUIManager (TextField)
@@ -178,12 +177,12 @@ RCT_EXPORT_METHOD(submit:(nonnull NSNumber *)reactTag) {
 	
     UIView *view = (UIView *)[_bridge.uiManager viewForReactTag:reactTag];
     
-    if ([view isKindOfClass:[RCTUITextView class]]) {
+    if ([view isKindOfClass:[UITextView class]]) {
         
-        RCTUITextView *rctView = (RCTUITextView *)view;
+        UITextView *rctView = (UITextView *)view;
+        UITextView *textView = [_bridge.uiManager textViewForReactTag:reactTag];
 		
-        //TODO: Find a way to add this back in!
-//        [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:rctView.text key:nil eventCount:0];
+        [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:textView.text key:nil eventCount:0];
 		[rctView resignFirstResponder];
 		
     } else if ([view isKindOfClass:[RCTUITextField class]]) {
