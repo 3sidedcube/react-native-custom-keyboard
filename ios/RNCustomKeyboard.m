@@ -176,21 +176,26 @@ RCT_EXPORT_METHOD(submit:(nonnull NSNumber *)reactTag) {
 	
     UIView *view = (UIView *)[_bridge.uiManager viewForReactTag:reactTag];
     
+    UITextField *textField = [_bridge.uiManager textFieldForReactTag:reactTag];
+    UITextView *textView = [_bridge.uiManager textViewForReactTag:reactTag];
+    
     if ([view isKindOfClass:[UITextView class]]) {
         
         UITextView *rctView = (UITextView *)view;
-        UITextView *textView = [_bridge.uiManager textViewForReactTag:reactTag];
 		
         [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:textView.text key:nil eventCount:0];
 		[rctView resignFirstResponder];
 		
-    } else if ([view isKindOfClass:[UITextField class]]) {
-		
-		UITextField *textField = [_bridge.uiManager textFieldForReactTag:reactTag];
-		
+    } else if ([view isKindOfClass:[UITextField class]] || textField) {
+				
 		[self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:textField.text key:nil eventCount:0];
 		[textField resignFirstResponder];
-    }    
+        
+    } else if (textView) {
+        
+        [self.bridge.eventDispatcher sendTextEventWithType:RCTTextEventTypeSubmit reactTag:reactTag text:textView.text key:nil eventCount:0];
+        [view resignFirstResponder];
+    }
 }
 
 RCT_EXPORT_METHOD(backSpace:(nonnull NSNumber *)reactTag) {
